@@ -8,16 +8,16 @@ jobs:
     - name: Unzip Project
       run: unzip -o project.zip
     - name: set up JDK 17
-      id: setup-java
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Grant execute permission for gradlew
+      working-directory: ./project
+      run: chmod +x gradlew
     - name: Build with Gradle
       working-directory: ./project
-      run: |
-        chmod +x gradlew
-        ./gradlew assembleDebug -Dorg.gradle.java.home=${{ steps.setup-java.outputs.java-home }} --no-daemon
+      run: ./gradlew assembleDebug --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
