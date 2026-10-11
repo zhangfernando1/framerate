@@ -18,9 +18,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       working-directory: ./project
-      run: ./gradlew assembleDebug
-      env:
-        JAVA_HOME: ${{ steps.setup-java.outputs.java-home }}
+      run: JAVA_HOME=${{ steps.setup-java.outputs.java-home }} ./gradlew assembleDebug --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
