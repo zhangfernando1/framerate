@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="V2 插帧助手" android:textSize="24sp" android:textStyle="bold" />
+
+    <EditText android:id="@+id/etPkg"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="com.miHoYo.GenshinImpact" android:layout_marginTop="20dp"/>
+
+    <Button android:id="@+id/btnStart"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="一键插帧" android:layout_marginTop="20dp"/>
+
+    <TextView android:id="@+id/tvLog"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="等待操作..." android:layout_marginTop="20dp"/>
+</LinearLayout>
