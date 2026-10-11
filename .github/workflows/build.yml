@@ -12,12 +12,13 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Grant execute permission for gradlew
-      working-directory: ./project
-      run: chmod +x gradlew
     - name: Build with Gradle
       working-directory: ./project
-      run: ./gradlew assembleDebug --no-daemon
+      run: |
+        echo "当前系统使用的 Java 版本："
+        java -version
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home=$JAVA_HOME
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
