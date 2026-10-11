@@ -13,12 +13,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Grant execute permission for gradlew
-      working-directory: ./project
-      run: chmod +x gradlew
     - name: Build with Gradle
       working-directory: ./project
-      run: JAVA_HOME=${{ steps.setup-java.outputs.java-home }} ./gradlew assembleDebug --no-daemon
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleDebug -Dorg.gradle.java.home=${{ steps.setup-java.outputs.java-home }} --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
