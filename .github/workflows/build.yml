@@ -2,7 +2,7 @@ name: Build APK
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - name: Unzip Project
@@ -15,8 +15,11 @@ jobs:
     - name: Build with Gradle
       working-directory: ./project
       run: |
+        # 强行获取 Java 17 路径并放在 PATH 最前面
         export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-        echo "强行锁定的 JAVA_HOME 为: $JAVA_HOME"
+        export PATH=$JAVA_HOME/bin:$PATH
+        echo "当前使用的 Java 路径为: $JAVA_HOME"
+        java -version
         chmod +x gradlew
         ./gradlew assembleDebug --no-daemon
     - name: Upload APK
