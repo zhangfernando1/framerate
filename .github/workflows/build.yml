@@ -15,10 +15,10 @@ jobs:
     - name: Build with Gradle
       working-directory: ./project
       run: |
-        echo "当前系统使用的 Java 版本："
-        java -version
+        export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+        echo "强行锁定的 JAVA_HOME 为: $JAVA_HOME"
         chmod +x gradlew
-        ./gradlew assembleDebug --no-daemon -Dorg.gradle.java.home=$JAVA_HOME
+        ./gradlew assembleDebug --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
