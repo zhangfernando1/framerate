@@ -2,7 +2,7 @@ name: Build APK
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Unzip Project
@@ -12,16 +12,15 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Force Java 17 in Gradle
+      working-directory: ./project
+      run: echo "org.gradle.java.home=/usr/lib/jvm/temurin-17-jdk-amd64" > gradle.properties
+    - name: Grant execute permission for gradlew
+      working-directory: ./project
+      run: chmod +x gradlew
     - name: Build with Gradle
       working-directory: ./project
-      run: |
-        # 强行获取 Java 17 路径并放在 PATH 最前面
-        export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-        export PATH=$JAVA_HOME/bin:$PATH
-        echo "当前使用的 Java 路径为: $JAVA_HOME"
-        java -version
-        chmod +x gradlew
-        ./gradlew assembleDebug --no-daemon
+      run: ./gradlew assembleDebug --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
