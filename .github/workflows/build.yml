@@ -2,7 +2,7 @@ name: Build APK
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - name: Unzip Project
@@ -12,13 +12,13 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Remove buildSrc and Build
+    - name: Remove broken wrapper and build
       working-directory: ./project
       run: |
-        rm -rf buildSrc
-        wget https://services.gradle.org/distributions/gradle-8.9-bin.zip -O gradle.zip
-        unzip -q gradle.zip
-        ./gradle-8.9/bin/gradle assembleDebug --no-daemon -Dorg.gradle.java.home=/usr/lib/jvm/temurin-17-jdk-amd64
+        rm -rf gradle gradlew gradlew.bat buildSrc
+        wget https://services.gradle.org/distributions/gradle-8.9-bin.zip -O gradle-8.9.zip
+        unzip -q gradle-8.9.zip
+        ./gradle-8.9/bin/gradle assembleDebug --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
