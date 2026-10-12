@@ -2,7 +2,7 @@ name: Build APK
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Unzip Project
@@ -16,6 +16,8 @@ jobs:
       working-directory: ./project
       run: |
         rm -rf gradle gradlew gradlew.bat buildSrc
+        echo "android.useAndroidX=true" > gradle.properties
+        echo "android.enableJetifier=true" >> gradle.properties
         wget https://services.gradle.org/distributions/gradle-8.9-bin.zip -O gradle-8.9.zip
         unzip -q gradle-8.9.zip
         ./gradle-8.9/bin/gradle assembleDebug --no-daemon
