@@ -2,7 +2,7 @@ name: Build APK
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Unzip Project
@@ -12,12 +12,13 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Grant execute permission for gradlew
-      working-directory: ./project
-      run: chmod +x gradlew
+    - name: Download and Setup Gradle
+      run: |
+        wget https://services.gradle.org/distributions/gradle-8.9-bin.zip -O gradle.zip
+        unzip -q gradle.zip
     - name: Build with Gradle
       working-directory: ./project
-      run: ./gradlew assembleDebug --no-daemon
+      run: ../gradle-8.9/bin/gradle assembleDebug --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
